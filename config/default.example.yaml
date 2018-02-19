@@ -1,0 +1,14 @@
+keys:
+  - some random keys
+
+database:
+  host: 127.0.0.1
+  port: 3306
+  database: lujjjh
+  user: user
+  password: secret
+
+oauth:
+  client_id: GitHub Client ID
+  client_secret: GitHub Client Secret
+  redirect_uri: http://www.example.com/auth/callback

@@ -1,0 +1,46 @@
+{
+  "name": "codehut.me",
+  "version": "0.1.0",
+  "description": "lujjjh's blog.",
+  "private": true,
+  "main": "dist/bootstrap.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "start": "onchange 'src/**/*.ts' -i -- ts-node src/app.ts",
+    "test": "tslint -p .",
+    "build": "tsc"
+  },
+  "author": "lujjjh <lujjjh@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "autobind-decorator": "^2.1.0",
+    "client-oauth2": "^4.1.0",
+    "config": "^1.29.4",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
+    "marked": "^0.3.15",
+    "node-ts-cache": "^0.3.0",
+    "promise-mysql": "^3.2.0",
+    "reflect-metadata": "^0.1.12",
+    "routing-controllers": "^0.7.6",
+    "typedi": "^0.6.1"
+  },
+  "devDependencies": {
+    "@types/config": "0.0.34",
+    "@types/koa": "^2.0.44",
+    "@types/koa-bodyparser": "^4.2.0",
+    "@types/koa-router": "^7.0.27",
+    "@types/koa-session": "^5.7.1",
+    "@types/node": "^9.4.6",
+    "onchange": "^3.3.0",
+    "ts-node": "^4.1.0",
+    "tslint": "^5.9.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.7.2"
+  }
+}

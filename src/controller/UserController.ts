@@ -1,7 +1,7 @@
 import { JsonController, Get, CurrentUser, Ctx, Session, OnUndefined, UnauthorizedError } from 'routing-controllers'
-import { Inject } from 'typedi';
-import { Response, Context } from 'koa';
-import { UserService } from '../service/UserService';
+import { Inject } from 'typedi'
+import { Context } from 'koa'
+import { UserService } from '../service/UserService'
 
 @JsonController()
 export class UserController {

@@ -1,7 +1,7 @@
 import * as ClientOAuth2 from 'client-oauth2'
-import { Service, Inject } from 'typedi';
+import { Service, Inject } from 'typedi'
 import * as config from 'config'
-import { Database } from './Database';
+import { Database } from './Database'
 
 type User = {
   name: string
@@ -10,10 +10,10 @@ type User = {
 
 @Service()
 export class UserService {
-  private auth: ClientOAuth2;
+  private auth: ClientOAuth2
 
   @Inject()
-  private database: Database;
+  private database: Database
 
   constructor () {
     this.auth = new ClientOAuth2({

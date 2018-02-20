@@ -1,10 +1,14 @@
-import { Service } from 'typedi'
+import * as fs from "fs";
+import { join } from "path";
+import { Service } from "typedi";
 
-const pkg = require('../../package.json')
+const pkg = JSON.parse(
+  fs.readFileSync(join(__dirname, "..", "..", "package.json"), "utf-8")
+);
 
 @Service()
 export class VersionService {
-  getVersion () {
-    return String(pkg.version)
+  public getVersion() {
+    return String(pkg.version);
   }
 }

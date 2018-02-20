@@ -1,12 +1,12 @@
-import * as mysql from 'promise-mysql'
-import * as config from 'config'
-import { Service } from 'typedi'
+import * as config from "config";
+import * as mysql from "promise-mysql";
+import { Service } from "typedi";
 
 @Service()
 export class Database {
-  client: mysql.Pool
+  public client: mysql.Pool;
 
-  constructor () {
-    this.client = mysql.createPool(config.get('database'))
+  constructor() {
+    this.client = mysql.createPool(config.get("database"));
   }
 }

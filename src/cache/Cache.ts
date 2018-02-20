@@ -1,5 +1,9 @@
-import { Cache as TSCache, ExpirationStrategy, MemoryStorage } from 'node-ts-cache'
+import {
+  Cache as TSCache,
+  ExpirationStrategy,
+  MemoryStorage
+} from "node-ts-cache";
 
-const strategy = new ExpirationStrategy(new MemoryStorage())
+const strategy = new ExpirationStrategy(new MemoryStorage());
 
-export const Cache = TSCache.bind(null, strategy)
+export const Cache = TSCache.bind(null, strategy);

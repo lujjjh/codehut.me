@@ -1,5 +1,20 @@
+{{>partial/header}}
+
 {{#posts}}
   <div class="post">
-    <div class="post-title"><a href="{{url}}">{{title}}</a>
+    <div class="post-title">
+      <a href="{{url}}">{{title}}</a>
+    </div>
+    <div class="post-date">{{date}}</div>
   </div>
 {{/posts}}
+
+{{#prev}}
+  <a href="{{url}}">上一页</a>
+{{/prev}}
+
+{{#next}}
+  <a href="{{url}}">下一页</a>
+{{/next}}
+
+{{>partial/footer}}

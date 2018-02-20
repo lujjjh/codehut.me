@@ -1,10 +1,9 @@
 import autobind from "autobind-decorator";
-import * as marked from "marked";
 import { Inject, Service } from "typedi";
 import { Cache } from "../cache/Cache";
 import { Database } from "./Database";
 
-interface Post {
+export interface Post {
   id: number;
   tags: string[];
   title: string;
@@ -84,7 +83,7 @@ export class PostService {
   @autobind
   private postFromRow({ id, tags, title, content, published_at }) {
     if (content !== undefined) {
-      content = marked(String(content));
+      content = String(content);
     }
 
     return {

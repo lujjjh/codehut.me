@@ -1,20 +1,19 @@
-import { Response } from "express";
+import { memorize } from "memorize-decorator";
 import {
   Authorized,
   Controller,
   Get,
   HttpError,
-  NotFoundError,
   OnUndefined,
   Param,
   Post,
   QueryParam,
-  Render,
-  Res
+  Render
 } from "routing-controllers";
 import { Inject } from "typedi";
 import { PostNotFoundError } from "../error/PostNotFoundError";
 import { PostService } from "../service/PostService";
+import { PostView } from "../view/PostView";
 
 @Controller()
 export class PostController {
@@ -22,32 +21,28 @@ export class PostController {
 
   @Get("/")
   @Render("posts")
-  public async listPosts(
-    @QueryParam("page") page: number,
-    @Res() res: Response
-  ) {
+  @memorize({ ttl: 60 })
+  public async listPosts(@QueryParam("page") page: number) {
     if (!page || page !== page) {
       page = 1;
-    } else if (page === 1) {
-      res.redirect("/");
-      return res;
     }
     const offset = 5 * (page - 1);
     const [posts, count] = await Promise.all([
       this.postService.findAll({ limit: 5, offset }),
       this.postService.countAll()
     ]);
-    const postsWithURL = posts.map(post => ({
-      ...post,
-      url: "/posts/" + Buffer.from("cursor:" + post.id).toString("base64")
-    }));
-    return { total_count: count, posts: postsWithURL };
+    const postViews = posts.map(PostView.from.bind(PostView));
+    const prev = page > 1 ? { url: `/?page=${page - 1}` } : null;
+    const next =
+      offset + posts.length < count ? { url: `/?page=${page + 1}` } : null;
+    return { prev, next, posts: postViews };
   }
 
   @Get("/posts/:cursor")
   @Render("post")
+  @memorize({ ttl: 120 })
   @OnUndefined(PostNotFoundError)
-  public find(@Param("cursor") cursor: string) {
+  public async find(@Param("cursor") cursor: string) {
     const cursorId = Buffer.from(cursor, "base64").toString("utf-8");
     const match = /^cursor:(\d+)$/.exec(cursorId);
     if (!match) {
@@ -57,7 +52,11 @@ export class PostController {
     if (id !== id) {
       return undefined;
     }
-    return this.postService.find(id);
+    const post = await this.postService.find(id);
+    if (!post) {
+      return undefined;
+    }
+    return PostView.from(post);
   }
 
   @Post("/")

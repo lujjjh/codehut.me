@@ -35,8 +35,8 @@ export class PostView {
 
   @memorize()
   get date() {
-    return DateTime.fromJSDate(this.post.published_at!)
-      .setLocale("zh")
-      .toLocaleString(DateTime.DATE_FULL);
+    return DateTime.fromJSDate(this.post.published_at!).toLocaleString(
+      DateTime.DATE_FULL
+    );
   }
 }

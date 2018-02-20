@@ -3,6 +3,7 @@ import "reflect-metadata";
 import * as config from "config";
 import * as Express from "express";
 import * as session from "express-session";
+import { Settings } from "luxon";
 import * as mustacheExpress from "mustache-express";
 import * as path from "path";
 import { Action, useContainer, useExpressServer } from "routing-controllers";
@@ -14,6 +15,8 @@ import { UserService } from "./service/UserService";
 
 async function start() {
   await han.ready();
+
+  Settings.defaultLocale = "zh";
 
   useContainer(Container);
 

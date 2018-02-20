@@ -4,11 +4,10 @@
   "description": "lujjjh's blog.",
   "private": true,
   "main": "dist/bootstrap.js",
-  "files": [
-    "dist/"
-  ],
+  "files": ["dist/"],
   "scripts": {
-    "start": "onchange 'src/**/*.{mustache,ts}' -i -- ts-node src/app.ts",
+    "dev": "onchange 'src/**/*.{mustache,ts}' -i -- ts-node src/app.ts",
+    "start": "node --icu-data-dir=node_modules/full-icu dist/bootstrap",
     "test": "prettier --debug-check src/**/*.ts && tslint -p .",
     "fix": "prettier --write src/**/*.ts && tslint --fix -p .",
     "build": "tsc"

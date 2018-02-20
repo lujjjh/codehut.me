@@ -1,10 +1,11 @@
-import { Context } from "koa";
+import { Request, Response } from "express";
 import {
-  Ctx,
   CurrentUser,
   Get,
   JsonController,
   OnUndefined,
+  Req,
+  Res,
   Session,
   UnauthorizedError
 } from "routing-controllers";
@@ -24,19 +25,24 @@ export class UserController {
   }
 
   @Get("/auth")
-  public auth(@Ctx() ctx: Context) {
-    ctx.redirect(this.userService.getUri());
+  public auth(@Res() res: Response) {
+    res.redirect(this.userService.getUri());
     return "Redirecting to GitHub...";
   }
 
   @Get("/auth/callback")
   @OnUndefined(UnauthorizedError)
-  public async login(@Ctx() ctx: Context, @Session() session) {
-    const user = await this.userService.findUserByUri(ctx.originalUrl);
-    if (user) {
-      session.user_id = user.id;
-      ctx.redirect("/");
+  public async login(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Session() session
+  ) {
+    const user = await this.userService.findUserByUri(req.originalUrl);
+    if (!user) {
+      return undefined;
     }
+    session.user_id = user.id;
+    res.redirect("/");
     return "";
   }
 }

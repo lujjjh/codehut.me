@@ -1,42 +1,41 @@
 import "reflect-metadata";
 
 import * as config from "config";
-import * as Koa from "koa";
-import * as session from "koa-session";
-import * as views from "koa-views";
-import { Action, useContainer, useKoaServer } from "routing-controllers";
+import * as Express from "express";
+import * as session from "express-session";
+import * as mustacheExpress from "mustache-express";
+import {
+  Action,
+  useContainer,
+  useExpressServer,
+  useKoaServer
+} from "routing-controllers";
 import { Container } from "typedi";
 import { PostController } from "./controller/PostController";
 import { UserController } from "./controller/UserController";
-import { VersionController } from "./controller/VersionController";
 import { UserService } from "./service/UserService";
 
 useContainer(Container);
 
-const app = new Koa();
+const app = Express();
 
-app.keys = config.get("keys");
+app.set("trust proxy", 1);
 
-app.use(
-  session(
-    {
-      key: "lujjjh:session",
-      maxAge: 30 * 24 * 3600 * 1000
-    },
-    app
-  )
-);
+app.engine("mustache", mustacheExpress());
+app.set("view engine", "mustache");
+app.set("views", __dirname + "/view");
 
 app.use(
-  views(__dirname + "/view", {
-    extension: "mustache",
-    map: {
-      mustache: "mustache"
+  session({
+    secret: config.get("secret"),
+    cookie: {
+      maxAge: 30 * 24 * 3600 * 1000,
+      secure: app.get("env") === "production"
     }
   })
 );
 
-useKoaServer(app, {
+useExpressServer(app, {
   authorizationChecker(action: Action, rules: string[]) {
     return !!action.context.session.user_id;
   },
@@ -44,7 +43,7 @@ useKoaServer(app, {
     const { user_id: id } = action.context.session;
     return Container.get(UserService).findUserById(id);
   },
-  controllers: [VersionController, UserController, PostController]
+  controllers: [UserController, PostController]
 });
 
 const port = (process.env.PORT && +process.env.PORT) || 3000;

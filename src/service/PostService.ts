@@ -1,6 +1,7 @@
 import autobind from "autobind-decorator";
 import * as marked from "marked";
 import { Inject, Service } from "typedi";
+import { Cache } from "../cache/Cache";
 import { Database } from "./Database";
 
 interface Post {
@@ -15,6 +16,7 @@ interface Post {
 export class PostService {
   @Inject() private database: Database;
 
+  @Cache({ ttl: 60 })
   public async findAll({ limit, offset }: { limit?: number; offset?: number }) {
     limit = Math.floor(limit || 10);
     offset = Math.floor(offset || 0);
@@ -39,6 +41,7 @@ export class PostService {
     return rows.map(this.postFromRow) as Array<Partial<Post>>;
   }
 
+  @Cache({ ttl: 60 })
   public async countAll() {
     const rows = await this.database.client.query(`
       SELECT COUNT(id) AS count
@@ -50,6 +53,7 @@ export class PostService {
     return +rows[0].count;
   }
 
+  @Cache({ ttl: 120 })
   public async find(id: number) {
     const rows = await this.database.client.query(
       `

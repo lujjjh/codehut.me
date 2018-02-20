@@ -4,6 +4,7 @@ import * as config from "config";
 import * as Express from "express";
 import * as session from "express-session";
 import * as mustacheExpress from "mustache-express";
+import * as path from "path";
 import { Action, useContainer, useExpressServer } from "routing-controllers";
 import { Container } from "typedi";
 import { PostController } from "./controller/PostController";
@@ -22,7 +23,7 @@ async function start() {
 
   app.engine("mustache", mustacheExpress());
   app.set("view engine", "mustache");
-  app.set("views", __dirname + "/view");
+  app.set("views", path.join(__dirname, "..", "views"));
 
   app.use(
     session({

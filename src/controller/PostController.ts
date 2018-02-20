@@ -15,8 +15,12 @@ export class PostController {
 
   @Get('/')
   @Cache({ ttl: 60 })
-  findAll (@QueryParam('limit') limit: number, @QueryParam('offset') offset: number) {
-    return this.postService.findAll({ limit, offset })
+  async listPosts (@QueryParam('limit') limit: number, @QueryParam('offset') offset: number) {
+    const [posts, count] = await Promise.all([
+      this.postService.findAll({ limit, offset }),
+      this.postService.countAll()
+    ])
+    return { total_count: count, posts }
   }
 
   @Get('/:id')

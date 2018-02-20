@@ -24,9 +24,9 @@ export class UserController {
   async login (@Ctx() ctx: Context, @Session() session) {
     const user = await this.userService.findUserByUri(ctx.originalUrl)
     if (user) {
-      session.user = user
+      session.user_id = user.id
       ctx.redirect('/')
     }
-    return user
+    return ''
   }
 }

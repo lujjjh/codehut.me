@@ -37,6 +37,17 @@ export class PostService {
     return rows.map(this.postFromRow) as Array<Partial<Post>>
   }
 
+  async countAll () {
+    const rows = await this.database.client.query(`
+      SELECT COUNT(id) AS count
+      FROM posts
+    `)
+    if (rows.length === 0) {
+      return 0
+    }
+    return +rows[0].count
+  }
+
   async find (id: number) {
     const rows = await this.database.client.query(`
       SELECT

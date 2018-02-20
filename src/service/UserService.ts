@@ -4,8 +4,9 @@ import * as config from 'config'
 import { Database } from './Database'
 
 type User = {
+  id: number
   name: string
-  displayName: string
+  display_name: string
 }
 
 @Service()
@@ -45,15 +46,26 @@ export class UserService {
 
   async findUserByName (name: string) {
     const rows = await this.database.client.query(`
-      SELECT name, display_name FROM users
+      SELECT id, name, display_name FROM users
       WHERE name = ?
     `, name)
     if (rows.length === 0) {
       return undefined
     }
-    return {
-      name: rows[0].name,
-      displayName: rows[0].display_name
-    } as User
+    return rows[0] as User
+  }
+
+  async findUserById (id: number) {
+    if (!id || +id !== +id) {
+      return undefined
+    }
+    const rows = await this.database.client.query(`
+      SELECT id, name, display_name FROM users
+      WHERE id = ?
+    `, id)
+    if (rows.length === 0) {
+      return undefined
+    }
+    return rows[0] as User
   }
 }

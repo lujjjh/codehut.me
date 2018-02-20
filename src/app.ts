@@ -8,6 +8,7 @@ import { VersionController } from './controller/VersionController'
 import { PostController } from './controller/PostController'
 import * as config from 'config'
 import { UserController } from './controller/UserController'
+import { UserService } from './service/UserService'
 
 useContainer(Container)
 
@@ -22,10 +23,11 @@ app.use(session({
 
 useKoaServer(app, {
   authorizationChecker (action: Action, rules: string[]) {
-    return !!action.context.session.user
+    return !!action.context.session.user_id
   },
   currentUserChecker (action: Action) {
-    return action.context.session.user
+    const { user_id: id } = action.context.session
+    return Container.get(UserService).findUserById(id)
   },
   controllers: [
     VersionController,

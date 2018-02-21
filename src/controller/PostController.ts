@@ -16,6 +16,8 @@ import { PostService } from "../service/PostService";
 import { BaseView } from "../view/BaseView";
 import { PostView } from "../view/PostView";
 
+const POSTS_PER_PAGE = 10;
+
 @Controller()
 export class PostController {
   @Inject() private postService: PostService;
@@ -27,9 +29,9 @@ export class PostController {
     if (!page || page !== page) {
       page = 1;
     }
-    const offset = 5 * (page - 1);
+    const offset = POSTS_PER_PAGE * (page - 1);
     const [posts, count] = await Promise.all([
-      this.postService.findAll({ limit: 10, offset }),
+      this.postService.findAll({ limit: POSTS_PER_PAGE, offset }),
       this.postService.countAll()
     ]);
     const postViews = posts.map(PostView.from.bind(PostView));

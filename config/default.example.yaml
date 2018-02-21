@@ -1,4 +1,5 @@
-secret: some random keys
+keys:
+  - some random keys
 
 database:
   host: 127.0.0.1

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 
 import * as config from "config";
+import session = require("cookie-session");
 import * as express from "express";
-import * as session from "express-session";
 import { Settings } from "luxon";
 import * as mustacheExpress from "mustache-express";
 import * as path from "path";
@@ -31,13 +31,10 @@ async function start() {
 
   app.use(
     session({
-      secret: config.get("secret"),
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 30 * 24 * 3600 * 1000,
-        secure: app.get("env") === "production"
-      }
+      name: "lujjjh:session",
+      keys: config.get("keys"),
+      maxAge: 30 * 24 * 3600 * 1000,
+      secure: app.get("env") === "production"
     })
   );
 

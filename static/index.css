@@ -25,45 +25,44 @@ body {
   padding: 40px;
 }
 
-.app__header {
+header {
   font-family: Saira Condensed, sans-serif;
   font-size: 36px;
   font-weight: 100;
   margin: 0 0 40px;
 }
-.app__header a {
+
+header a {
   color: #349ede;
 }
-.app__footer {
+
+footer {
   color: #a2a2a2;
   margin: 80px 0 0;
 }
-.app__footer a {
+
+footer a {
   color: #a2a2a2;
   text-decoration: none;
 }
-.app__footer a:hover {
+
+footer a:hover {
   color: #353b40;
 }
 
-.post-list-pagination {
+.pagination {
+  display: flex;
   height: 20px;
+  justify-content: center;
   line-height: 20px;
   margin-top: 40px;
   overflow: hidden;
 }
 
-.post-list-pagination__next,
-.post-list-pagination__prev {
+.pagination-next,
+.pagination-prev {
   color: #999;
-}
-
-.post-list-pagination__prev {
-  float: left;
-}
-
-.post-list-pagination__next {
-  float: right;
+  padding: 0 20px;
 }
 
 .post {

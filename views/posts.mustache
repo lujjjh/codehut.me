@@ -9,12 +9,14 @@
   </div>
 {{/posts}}
 
-{{#prev}}
-  <a href="{{url}}">上一页</a>
-{{/prev}}
+<div class="pagination">
+  {{#prev}}
+    <a class="pagination-prev" href="{{url}}">上一页</a>
+  {{/prev}}
 
-{{#next}}
-  <a href="{{url}}">下一页</a>
-{{/next}}
+  {{#next}}
+    <a class="pagination-next" href="{{url}}">下一页</a>
+  {{/next}}
+</div>
 
 {{>partial/footer}}

@@ -25,6 +25,13 @@ async function start() {
 
   app.set("trust proxy", 1);
 
+  app.get(
+    "/favicon.ico",
+    express.static(path.join(__dirname, "..", "static"), {
+      maxAge: 24 * 3600 * 1000
+    })
+  );
+
   app.engine("mustache", mustacheExpress());
   app.set("view engine", "mustache");
   app.set("views", path.join(__dirname, "..", "views"));

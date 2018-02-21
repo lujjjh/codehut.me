@@ -7,7 +7,8 @@
   "files": ["dist/"],
   "scripts": {
     "dev": "onchange 'src/**/*.{mustache,ts}' -i -- ts-node src/app.ts",
-    "start": "node --icu-data-dir=node_modules/full-icu dist/bootstrap",
+    "start":
+      "NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/bootstrap",
     "test": "prettier --debug-check src/**/*.ts && tslint -p .",
     "fix": "prettier --write src/**/*.ts && tslint --fix -p .",
     "build": "tsc"

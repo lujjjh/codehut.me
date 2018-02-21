@@ -38,4 +38,9 @@ export class PostView extends BaseView {
       DateTime.DATE_FULL
     );
   }
+
+  @memorize()
+  get datetime() {
+    return DateTime.fromJSDate(this.post.published_at!).toISO();
+  }
 }

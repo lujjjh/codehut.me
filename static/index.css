@@ -103,6 +103,16 @@ footer a:hover {
   text-align: justify;
 }
 
+.post-content::before,
+.post-content::after {
+  content: "";
+  display: table;
+}
+
+.post-content::after {
+  clear: both;
+}
+
 .post-content a {
   color: #349ede;
 }
@@ -153,6 +163,7 @@ footer a:hover {
 }
 
 .reward {
+  margin: 20px 0;
   opacity: 0.666;
   text-align: center;
 }

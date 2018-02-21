@@ -2,6 +2,13 @@
 
 <h2 class="post-title">{{title}}</h2>
 <div class="post-content">{{{content}}}</div>
-<div class="reward"><img src="https://cdn.ljh.io/wechat_qr.png" width="140" height="140"></div>
+<div class="reward">
+  <script>
+    var reward = /micromessenger/i.test(navigator.userAgent)
+      ? 'http://cdn.ljh.io/reward-qr-in-wechat@2x.png'
+      : 'http://cdn.ljh.io/reward-qr@2x.png';
+    document.write('<img src="' + reward + '" width="140" height="140">');
+  </script>
+</div>
 
 {{>partial/footer}}

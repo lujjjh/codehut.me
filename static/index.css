@@ -125,7 +125,7 @@ footer a:hover {
 .post-content code {
   font-feature-settings: normal;
   font-size: 12px;
-  line-height: 1.2;
+  overflow: auto;
   word-break: break-all;
 }
 .post-content h2 {

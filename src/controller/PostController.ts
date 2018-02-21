@@ -57,7 +57,7 @@ export class PostController {
     if (!post) {
       return undefined;
     }
-    return PostView.from(post);
+    return PostView.from(post) as PostView;
   }
 
   @Post("/")

@@ -3,7 +3,10 @@ import "reflect-metadata";
 import * as config from "config";
 import session = require("cookie-session");
 import * as express from "express";
+import * as highlightjs from "highlight.js";
 import { Settings } from "luxon";
+import * as marked from "marked";
+import { Renderer } from "marked";
 import * as mustacheExpress from "mustache-express";
 import * as path from "path";
 import { Action, useContainer, useExpressServer } from "routing-controllers";
@@ -18,6 +21,18 @@ async function start() {
   await han.ready();
 
   Settings.defaultLocale = "zh";
+
+  const renderer = new Renderer();
+
+  renderer.code = (code, language) => {
+    const validLang = !!(language && highlightjs.getLanguage(language));
+    const highlighted = validLang
+      ? highlightjs.highlight(language, code).value
+      : code;
+    return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
+  };
+
+  marked.setOptions({ renderer });
 
   useContainer(Container);
 

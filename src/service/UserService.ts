@@ -21,7 +21,6 @@ export class UserService {
       clientSecret: config.get("oauth.client_secret"),
       accessTokenUri: "https://github.com/login/oauth/access_token",
       authorizationUri: "https://github.com/login/oauth/authorize",
-      redirectUri: config.get("oauth.redirect_uri"),
       scopes: ["read:user"]
     });
   }

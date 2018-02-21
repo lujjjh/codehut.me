@@ -68,10 +68,7 @@ footer a:hover {
 
 .post-title {
   font-size: 18px;
-  overflow: hidden;
   padding: 10px 0 5px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .post-date {

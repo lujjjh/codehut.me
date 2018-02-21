@@ -113,13 +113,13 @@ footer a:hover {
 
 .post-content code {
   font-feature-settings: normal;
+  font-size: 12px;
   overflow: auto;
+  word-break: break-all;
 }
 
-.post-content p code,
-.post-content pre code {
-  font-size: 12px;
-  word-break: break-all;
+.post-content h2 code {
+  font-size: inherit;
 }
 
 .post-content h2 {

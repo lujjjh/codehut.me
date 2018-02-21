@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import * as config from "config";
-import * as Express from "express";
+import * as express from "express";
 import * as session from "express-session";
 import { Settings } from "luxon";
 import * as mustacheExpress from "mustache-express";
@@ -9,6 +9,7 @@ import * as path from "path";
 import { Action, useContainer, useExpressServer } from "routing-controllers";
 import { Container } from "typedi";
 import { PostController } from "./controller/PostController";
+import { StaticController } from "./controller/StaticController";
 import { UserController } from "./controller/UserController";
 import { han } from "./han";
 import { UserService } from "./service/UserService";
@@ -20,7 +21,7 @@ async function start() {
 
   useContainer(Container);
 
-  const app = Express();
+  const app = express();
 
   app.set("trust proxy", 1);
 
@@ -49,7 +50,7 @@ async function start() {
       return Container.get(UserService).findUserById(id);
     },
     classTransformer: false,
-    controllers: [UserController, PostController]
+    controllers: [StaticController, UserController, PostController]
   });
 
   const port = (process.env.PORT && +process.env.PORT) || 3000;

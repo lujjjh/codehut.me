@@ -1,0 +1,156 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400|Saira+Condensed:100);
+
+body,
+html {
+  color: #353b40;
+  font-family: Lato, PingFang SC, Microsoft Yahei, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0;
+}
+
+a {
+  color: #353b40;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 600px;
+  min-width: 0;
+  padding: 40px;
+}
+
+.app__header {
+  font-family: Saira Condensed, sans-serif;
+  font-size: 36px;
+  font-weight: 100;
+  margin: 0 0 40px;
+}
+.app__header a {
+  color: #349ede;
+}
+.app__footer {
+  color: #a2a2a2;
+  margin: 80px 0 0;
+}
+.app__footer a {
+  color: #a2a2a2;
+  text-decoration: none;
+}
+.app__footer a:hover {
+  color: #353b40;
+}
+
+.post-list-pagination {
+  height: 20px;
+  line-height: 20px;
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.post-list-pagination__next,
+.post-list-pagination__prev {
+  color: #999;
+}
+
+.post-list-pagination__prev {
+  float: left;
+}
+
+.post-list-pagination__next {
+  float: right;
+}
+
+.post {
+  margin: 20px 0;
+  min-height: 60px;
+  overflow: hidden;
+}
+
+.post-title {
+  font-size: 18px;
+  overflow: hidden;
+  padding: 10px 0 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.post-date {
+  color: #a2a2a2;
+  float: left;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.post-tags {
+  float: left;
+  list-style-type: none;
+  margin: 0;
+}
+
+.post-tags li {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 20px;
+  margin: 0 5px;
+}
+
+.post-tags li a {
+  display: inline-block;
+  padding: 0 3px;
+}
+
+.post-content {
+  clear: both;
+  font-family: Biaodian Pro Sans GB, Lato, PingFang SC, Microsoft Yahei,
+    sans-serif;
+  font-weight: 400;
+  line-height: 1.8;
+  padding: 10px 0;
+  text-align: justify;
+}
+
+.post-content a {
+  color: #349ede;
+}
+
+.post-content a:hover {
+  color: #60b3e5;
+}
+
+.post-content code {
+  font-feature-settings: normal;
+  font-size: 12px;
+  line-height: 1.2;
+  word-break: break-all;
+}
+.post-content h2 {
+  color: #65a8d1;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 2em 0 1em;
+}
+
+.post-content h2:before {
+  border: 8px solid transparent;
+  border-left-color: #65a8d1;
+  content: "";
+  display: block;
+  float: left;
+  margin: 4px 4px 0 0;
+}
+
+.post-content h3 {
+  font-size: 14px;
+  margin: 1.5em 0;
+}
+
+.post-content p {
+  margin: 1.5em 0;
+}

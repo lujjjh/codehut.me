@@ -13,6 +13,7 @@ import {
 import { Inject } from "typedi";
 import { PostNotFoundError } from "../error/PostNotFoundError";
 import { PostService } from "../service/PostService";
+import { BaseView } from "../view/BaseView";
 import { PostView } from "../view/PostView";
 
 @Controller()
@@ -28,14 +29,14 @@ export class PostController {
     }
     const offset = 5 * (page - 1);
     const [posts, count] = await Promise.all([
-      this.postService.findAll({ limit: 5, offset }),
+      this.postService.findAll({ limit: 10, offset }),
       this.postService.countAll()
     ]);
     const postViews = posts.map(PostView.from.bind(PostView));
     const prev = page > 1 ? { url: `/?page=${page - 1}` } : null;
     const next =
       offset + posts.length < count ? { url: `/?page=${page + 1}` } : null;
-    return { prev, next, posts: postViews };
+    return BaseView.from({ prev, next, posts: postViews });
   }
 
   @Get("/posts/:cursor")

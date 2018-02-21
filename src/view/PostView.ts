@@ -3,13 +3,12 @@ import * as marked from "marked";
 import memorize from "memorize-decorator";
 import { han } from "../han";
 import { Post } from "../service/PostService";
+import { BaseView } from "./BaseView";
 
-export class PostView {
-  public static from(post: Partial<Post>) {
-    return new this(post);
+export class PostView extends BaseView {
+  private constructor(private post: Partial<Post>) {
+    super();
   }
-
-  private constructor(private post: Partial<Post>) {}
 
   get id() {
     return this.post.id;

@@ -40,10 +40,10 @@ async function start() {
 
   useExpressServer(app, {
     authorizationChecker(action: Action, rules: string[]) {
-      return !!action.context.session.user_id;
+      return !!action.request.session.user_id;
     },
     currentUserChecker(action: Action) {
-      const { user_id: id } = action.context.session;
+      const { user_id: id } = action.request.session;
       return Container.get(UserService).findUserById(id);
     },
     classTransformer: false,

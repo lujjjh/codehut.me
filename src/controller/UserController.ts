@@ -27,7 +27,7 @@ export class UserController {
   @Get("/auth")
   public auth(@Res() res: Response) {
     res.redirect(this.userService.getUri());
-    return "Redirecting to GitHub...";
+    return res;
   }
 
   @Get("/auth/callback")
@@ -43,6 +43,6 @@ export class UserController {
     }
     session.user_id = user.id;
     res.redirect("/");
-    return "";
+    return res;
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "codehut.me",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "lujjjh's blog.",
   "private": true,
   "main": "dist/bootstrap.js",

@@ -35,7 +35,10 @@ export class PostController {
       this.postService.countAll()
     ]);
     const postViews = posts.map(PostView.from.bind(PostView));
-    const prev = page > 1 ? { url: `/?page=${page - 1}` } : null;
+    const prev =
+      page === 2
+        ? { url: "/" }
+        : page > 1 ? { url: `/?page=${page - 1}` } : null;
     const next =
       offset + posts.length < count ? { url: `/?page=${page + 1}` } : null;
     return BaseView.from({ prev, next, posts: postViews });

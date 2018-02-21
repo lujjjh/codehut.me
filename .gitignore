@@ -1,3 +1,4 @@
 node_modules
-/config/default.yaml
+/config/*
+!/config/default.example.yaml
 /dist

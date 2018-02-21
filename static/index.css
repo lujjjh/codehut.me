@@ -113,8 +113,12 @@ footer a:hover {
 
 .post-content code {
   font-feature-settings: normal;
-  font-size: 12px;
   overflow: auto;
+}
+
+.post-content p code,
+.post-content pre code {
+  font-size: 12px;
   word-break: break-all;
 }
 
@@ -141,6 +145,11 @@ footer a:hover {
 
 .post-content p {
   margin: 1.5em 0;
+}
+
+.post-content .align-center {
+  display: block;
+  margin: 0 auto;
 }
 
 .reward {

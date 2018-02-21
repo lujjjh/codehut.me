@@ -128,6 +128,7 @@ footer a:hover {
   overflow: auto;
   word-break: break-all;
 }
+
 .post-content h2 {
   color: #65a8d1;
   font-size: 18px;
@@ -152,4 +153,9 @@ footer a:hover {
 
 .post-content p {
   margin: 1.5em 0;
+}
+
+.reward {
+  opacity: 0.666;
+  text-align: center;
 }

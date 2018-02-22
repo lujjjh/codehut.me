@@ -1,3 +1,4 @@
+import * as config from "config";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -22,5 +23,9 @@ export class BaseView {
     return (text, render) => {
       return "/static/" + text.replace(/\.[^\.]+$/, `.${hash}$&`);
     };
+  }
+
+  get ga() {
+    return config.has("ga") ? config.get("ga") : undefined;
   }
 }

@@ -11,3 +11,6 @@ database:
 oauth:
   client_id: GitHub Client ID
   client_secret: GitHub Client Secret
+
+ga:
+  id: UA-foo-bar

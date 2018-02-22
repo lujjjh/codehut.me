@@ -133,19 +133,8 @@ footer a:hover {
 }
 
 .post-content h2 {
-  color: #65a8d1;
-  font-size: 18px;
-  line-height: 24px;
-  margin: 2em 0 1em;
-}
-
-.post-content h2:before {
-  border: 8px solid transparent;
-  border-left-color: #65a8d1;
-  content: "";
-  display: block;
-  float: left;
-  margin: 4px 4px 0 0;
+  font-size: 16px;
+  margin: 2.5em 0 1.5em;
 }
 
 .post-content h3 {
@@ -163,7 +152,7 @@ footer a:hover {
 }
 
 .reward {
-  margin: 20px 0;
+  margin: 60px 0 30px;
   opacity: 0.666;
   text-align: center;
 }

@@ -80,6 +80,8 @@ async function start() {
       `listening at http://${address.address}:${address.port}\n`
     );
   });
+
+  server.keepAliveTimeout = 120e3;
 }
 
 start();

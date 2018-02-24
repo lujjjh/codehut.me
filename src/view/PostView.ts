@@ -1,7 +1,5 @@
 import { DateTime } from "luxon";
-import * as marked from "marked";
 import memorize from "memorize-decorator";
-import { han } from "../han";
 import { Post } from "../service/PostService";
 import { BaseView } from "./BaseView";
 
@@ -22,9 +20,8 @@ export class PostView extends BaseView {
     return this.post.title;
   }
 
-  @memorize()
   get content() {
-    return han.render(marked(this.post.content));
+    return this.post.content_rendered;
   }
 
   @memorize()

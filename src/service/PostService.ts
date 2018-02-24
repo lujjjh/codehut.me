@@ -1,6 +1,8 @@
 import autobind from "autobind-decorator";
+import * as marked from "marked";
 import { Inject, Service } from "typedi";
 import { Cache } from "../cache/Cache";
+import { han } from "../han";
 import { Database } from "./Database";
 
 export interface Post {
@@ -8,6 +10,7 @@ export interface Post {
   tags: string[];
   title: string;
   content: string;
+  content_rendered: string;
   published_at: Date;
 }
 
@@ -23,17 +26,17 @@ export class PostService {
     offset = Math.max(0, offset);
     const rows = await this.database.client.query(
       `
-      SELECT
-        posts.id,
-        GROUP_CONCAT(tags.name ORDER BY tags.id) AS tags,
-        posts.title,
-        posts.published_at
-      FROM posts
-      LEFT OUTER JOIN post_tags ON posts.id = post_tags.post_id
-      LEFT OUTER JOIN tags ON tags.id = post_tags.tag_id
-      WHERE posts.published_at <= NOW()
-      GROUP BY posts.published_at DESC, posts.id DESC
-      LIMIT ? OFFSET ?
+        SELECT
+          posts.id,
+          GROUP_CONCAT(tags.name ORDER BY tags.id) AS tags,
+          posts.title,
+          posts.published_at
+        FROM posts
+        LEFT OUTER JOIN post_tags ON posts.id = post_tags.post_id
+        LEFT OUTER JOIN tags ON tags.id = post_tags.tag_id
+        WHERE posts.published_at <= NOW()
+        GROUP BY posts.published_at DESC, posts.id DESC
+        LIMIT ? OFFSET ?
       `,
       [limit, offset]
     );
@@ -56,24 +59,36 @@ export class PostService {
   public async find(id: number) {
     const rows = await this.database.client.query(
       `
-      SELECT
-        posts.id,
-        GROUP_CONCAT(tags.name ORDER BY tags.id) AS tags,
-        posts.title,
-        posts.content,
-        posts.published_at
-      FROM posts
-      LEFT OUTER JOIN post_tags ON posts.id = post_tags.post_id
-      LEFT OUTER JOIN tags ON tags.id = post_tags.tag_id
-      WHERE posts.id = ?
-      GROUP BY posts.id
+        SELECT
+          posts.id,
+          GROUP_CONCAT(tags.name ORDER BY tags.id) AS tags,
+          posts.title,
+          posts.content,
+          posts.content_rendered,
+          posts.published_at
+        FROM posts
+        LEFT OUTER JOIN post_tags ON posts.id = post_tags.post_id
+        LEFT OUTER JOIN tags ON tags.id = post_tags.tag_id
+        WHERE posts.id = ?
+        GROUP BY posts.id
       `,
       [id]
     );
     if (rows.length === 0) {
       return undefined;
     }
-    return this.postFromRow(rows[0]);
+    const post = this.postFromRow(rows[0]);
+    if (!post.content_rendered) {
+      post.content_rendered = han.render(marked(post.content));
+      this.database.client.query(
+        `
+          UPDATE posts SET content_rendered = ?
+          WHERE id = ?
+        `,
+        [post.content_rendered, id]
+      );
+    }
+    return post;
   }
 
   private tagsFromCommaSepList(commaList: string | null) {
@@ -81,16 +96,20 @@ export class PostService {
   }
 
   @autobind
-  private postFromRow({ id, tags, title, content, published_at }) {
-    if (content !== undefined) {
-      content = String(content);
-    }
-
+  private postFromRow({
+    id,
+    tags,
+    title,
+    content,
+    content_rendered,
+    published_at
+  }) {
     return {
       id,
       tags: this.tagsFromCommaSepList(tags),
       title,
       content,
+      content_rendered,
       published_at
     } as Post;
   }

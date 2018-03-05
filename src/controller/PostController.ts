@@ -2,6 +2,7 @@ import {
   Authorized,
   Controller,
   Get,
+  HeaderParam,
   HttpError,
   OnUndefined,
   Param,
@@ -45,7 +46,10 @@ export class PostController {
   @Get("/posts/:cursor")
   @Render("post")
   @OnUndefined(PostNotFoundError)
-  public async find(@Param("cursor") cursor: string) {
+  public async find(
+    @Param("cursor") cursor: string,
+    @HeaderParam("User-Agent") ua: string
+  ) {
     const cursorId = Buffer.from(cursor, "base64").toString("utf-8");
     const match = /^cursor:(\d+)$/.exec(cursorId);
     if (!match) {
@@ -59,6 +63,9 @@ export class PostController {
     if (!post) {
       return undefined;
     }
+    if (/bot|googlebot|crawler|spider|robot|crawling/i.test(ua)) {
+      post.content_rendered = this.stripHanzi(post.content_rendered);
+    }
     return PostView.from(post) as PostView;
   }
 
@@ -66,5 +73,12 @@ export class PostController {
   @Authorized()
   public create() {
     throw new HttpError(501, "Not implemented.");
+  }
+
+  private stripHanzi(content: string) {
+    while (/<(h-[^>\s]+)[^>]*>([\s\S]*?)<\/\1>/.test(content)) {
+      content = content.replace(/<(h-[^>\s]+)[^>]*>([\s\S]*?)<\/\1>/g, "$2");
+    }
+    return content;
   }
 }

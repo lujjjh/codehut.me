@@ -1,4 +1,3 @@
-import { memorize } from "memorize-decorator";
 import {
   Authorized,
   Controller,
@@ -24,7 +23,6 @@ export class PostController {
 
   @Get("/")
   @Render("posts")
-  @memorize({ ttl: 60 })
   public async listPosts(@QueryParam("page") page: number) {
     if (!page || page !== page) {
       page = 1;
@@ -46,7 +44,6 @@ export class PostController {
 
   @Get("/posts/:cursor")
   @Render("post")
-  @memorize({ ttl: 120 })
   @OnUndefined(PostNotFoundError)
   public async find(@Param("cursor") cursor: string) {
     const cursorId = Buffer.from(cursor, "base64").toString("utf-8");

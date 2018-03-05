@@ -3,13 +3,5 @@
 <div class="post-title">{{title}}</div>
 <div class="post-date"><time datetime="{{datetime}}">{{date}}</time></div>
 <div class="post-content">{{{content}}}</div>
-<div class="reward">
-  <script>
-    var reward = /micromessenger/i.test(navigator.userAgent)
-      ? 'https://cdn.ljh.io/reward-qr-in-wechat@2x.png'
-      : 'https://cdn.ljh.io/reward-qr@2x.png';
-    document.write('<img src="' + reward + '" width="140" height="140">');
-  </script>
-</div>
 
 {{>partial/footer}}

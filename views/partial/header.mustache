@@ -10,15 +10,29 @@
   <link href="https://cdn.ljh.io/highlight.js/9.12.0/styles/atom-one-light.min.css" rel="stylesheet">
   <link href="{{#asset}}index.css{{/asset}}" rel="stylesheet">
   {{#ga}}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{id}}"></script>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag(){dataLayer.push(arguments)};
+      gtag('js', new Date());;
 
       gtag('config', '{{id}}');
+
+      window.addEventListener('load', sendTiming);
+
+      function sendTiming() {
+        if (!('performance' in window)) {
+          return;
+        }
+        gtag('event', 'timing_complete', { name: 'load', value: Math.round(performance.now()) });
+        var timing = performance.timing;
+        gtag('event', 'timing_complete', { name: 'dns', value: timing.domainLookupEnd - timing.domainLookupStart });
+        gtag('event', 'timing_complete', { name: 'connect', value: timing.connectEnd - timing.connectStart });
+        gtag('event', 'timing_complete', { name: 'recv', value: timing.domComplete - timing.connectEnd });
+      }
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{id}}"></script>
+    <!-- End Google Analytics -->
   {{/ga}}
 </head>
 <body>

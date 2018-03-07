@@ -1,5 +1,7 @@
 import autobind from "autobind-decorator";
-import * as marked from "marked";
+import * as highlightjs from "highlight.js";
+import * as MarkdownIt from "markdown-it";
+import * as MarkdownItFootnote from "markdown-it-footnote";
 import { Inject, Service } from "typedi";
 import { Cache } from "../cache/Cache";
 import { han } from "../han";
@@ -13,6 +15,17 @@ export interface Post {
   content_rendered: string;
   published_at: Date;
 }
+
+const md = new MarkdownIt({
+  html: true,
+  highlight: (code, language) => {
+    const validLang = !!(language && highlightjs.getLanguage(language));
+    const highlighted = validLang
+      ? highlightjs.highlight(language, code).value
+      : code;
+    return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
+  }
+}).use(MarkdownItFootnote);
 
 @Service()
 export class PostService {
@@ -78,8 +91,8 @@ export class PostService {
       return undefined;
     }
     const post = this.postFromRow(rows[0]);
-    if (!post.content_rendered) {
-      post.content_rendered = han.render(marked(post.content));
+    if (process.env.NODE_ENV !== "production" || !post.content_rendered) {
+      post.content_rendered = han.render(md.render(post.content));
       this.database.client.query(
         `
           UPDATE posts SET content_rendered = ?

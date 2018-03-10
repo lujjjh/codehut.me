@@ -3,6 +3,7 @@ import "reflect-metadata";
 import * as config from "config";
 import session = require("cookie-session");
 import * as express from "express";
+import * as fs from "fs";
 import { Settings } from "luxon";
 import * as mustacheExpress from "mustache-express";
 import * as path from "path";
@@ -13,6 +14,12 @@ import { StaticController } from "./controller/StaticController";
 import { UserController } from "./controller/UserController";
 import { han } from "./han";
 import { UserService } from "./service/UserService";
+
+const pkg = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf-8")
+);
+const version = String(pkg.version);
+const hash = Buffer.from(version).toString("base64");
 
 async function start() {
   await han.ready();
@@ -36,6 +43,11 @@ async function start() {
   app.set("view engine", "mustache");
   app.set("views", path.join(__dirname, "..", "views"));
 
+  app.set("asset", () => (text, render) => {
+    return "/static/" + text.replace(/\.[^\.]+$/, `.${hash}$&`);
+  });
+  app.set("ga", () => config.has("ga") ? config.get("ga") : undefined);
+
   app.use(
     session({
       name: "lujjjh:session",
@@ -53,7 +65,6 @@ async function start() {
       const { user_id: id } = action.request.session;
       return Container.get(UserService).findUserById(id);
     },
-    classTransformer: false,
     controllers: [StaticController, UserController, PostController]
   });
 

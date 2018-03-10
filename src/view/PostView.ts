@@ -1,43 +1,30 @@
 import { DateTime } from "luxon";
-import memorize from "memorize-decorator";
 import { Post } from "../service/PostService";
-import { BaseView } from "./BaseView";
 
-export class PostView extends BaseView {
-  private constructor(private post: Partial<Post>) {
-    super();
-  }
+export class PostView {
+  public id: number;
+  public tags: string[];
+  public title: string;
+  public content: string;
+  public url: string;
+  public date: string;
+  public datetime: string;
 
-  get id() {
-    return this.post.id;
-  }
-
-  get tags() {
-    return (this.post.tags || []).slice();
-  }
-
-  get title() {
-    return this.post.title;
-  }
-
-  get content() {
-    return this.post.content_rendered;
-  }
-
-  @memorize()
-  get url() {
-    return "/posts/" + Buffer.from("cursor:" + this.id).toString("base64");
-  }
-
-  @memorize()
-  get date() {
-    return DateTime.fromJSDate(this.post.published_at!).toLocaleString(
+  constructor({
+    id,
+    tags,
+    title,
+    content_rendered,
+    published_at
+  }: Partial<Post>) {
+    this.id = id;
+    this.tags = (tags || []).slice();
+    this.title = title;
+    this.content = content_rendered;
+    this.url = "/posts/" + Buffer.from("cursor:" + this.id).toString("base64");
+    this.date = DateTime.fromJSDate(published_at!).toLocaleString(
       DateTime.DATE_FULL
     );
-  }
-
-  @memorize()
-  get datetime() {
-    return DateTime.fromJSDate(this.post.published_at!).toISO();
+    this.datetime = DateTime.fromJSDate(published_at!).toISO();
   }
 }

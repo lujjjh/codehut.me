@@ -8,8 +8,8 @@
   <title>{{#title}}{{title}} | {{/title}}codehut</title>
   <link href="https://cdn.ljh.io/Han/3.3.0/han.min.css" rel="stylesheet">
   <link href="https://cdn.ljh.io/highlight.js/9.12.0/styles/atom-one-light.min.css" rel="stylesheet">
-  <link href="{{#asset}}index.css{{/asset}}" rel="stylesheet">
-  {{#ga}}
+  <link href="{{#settings.asset}}index.css{{/settings.asset}}" rel="stylesheet">
+  {{#settings.ga}}
     <!-- Global Site Tag (gtag.js) - Google Analytics -->
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -33,7 +33,7 @@
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id={{id}}"></script>
     <!-- End Google Analytics -->
-  {{/ga}}
+  {{/settings.ga}}
 </head>
 <body>
   <header>

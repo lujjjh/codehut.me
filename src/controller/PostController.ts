@@ -13,7 +13,6 @@ import {
 import { Inject } from "typedi";
 import { PostNotFoundError } from "../error/PostNotFoundError";
 import { PostService } from "../service/PostService";
-import { BaseView } from "../view/BaseView";
 import { PostView } from "../view/PostView";
 
 const POSTS_PER_PAGE = 10;
@@ -33,14 +32,14 @@ export class PostController {
       this.postService.findAll({ limit: POSTS_PER_PAGE, offset }),
       this.postService.countAll()
     ]);
-    const postViews = posts.map(PostView.from.bind(PostView));
+    const postViews = posts.map(post => new PostView(post));
     const prev =
       page === 2
         ? { url: "/" }
         : page > 1 ? { url: `/?page=${page - 1}` } : null;
     const next =
       offset + posts.length < count ? { url: `/?page=${page + 1}` } : null;
-    return BaseView.from({ prev, next, posts: postViews });
+    return { prev, next, posts: postViews };
   }
 
   @Get("/posts/:cursor")
@@ -66,7 +65,7 @@ export class PostController {
     if (/bot|googlebot|crawler|spider|robot|crawling/i.test(ua)) {
       post.content_rendered = this.stripHanzi(post.content_rendered);
     }
-    return PostView.from(post) as PostView;
+    return new PostView(post);
   }
 
   @Post("/")

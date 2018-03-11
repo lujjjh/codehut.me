@@ -12,7 +12,7 @@ export interface Post {
   tags: string[];
   title: string;
   content: string;
-  content_rendered: string;
+  content_rendered?: string;
   published_at: Date;
 }
 
@@ -68,8 +68,7 @@ export class PostService {
     return +rows[0].count;
   }
 
-  @Cache({ ttl: 120 })
-  public async find(id: number) {
+  public async findWithoutCache(id: number) {
     const rows = await this.database.client.query(
       `
         SELECT
@@ -102,6 +101,32 @@ export class PostService {
       );
     }
     return post;
+  }
+
+  @Cache({ ttl: 120 })
+  public find(id: number) {
+    return this.findWithoutCache(id);
+  }
+
+  public create({ title, published_at, content }: Partial<Post>) {
+    return this.database.client.query(
+      `
+        INSERT posts (title, published_at, content, content_rendered)
+        VALUES (?, ?, ?, '')
+      `,
+      [title, published_at, content]
+    );
+  }
+
+  public update({ id, title, published_at, content }: Partial<Post>) {
+    return this.database.client.query(
+      `
+        UPDATE posts
+        SET title = ?, published_at = ?, content = ?, content_rendered = ''
+        WHERE id = ?
+      `,
+      [title, published_at, content, id]
+    );
   }
 
   private tagsFromCommaSepList(commaList: string | null) {

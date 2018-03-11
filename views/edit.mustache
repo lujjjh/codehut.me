@@ -1,0 +1,41 @@
+{{>partial/header}}
+
+<h1>创建/编辑文章</h1>
+
+<form method="post">
+  <input name="title" placeholder="文章标题" value="{{title}}">
+  <input name="published_at" type="datetime" placeholder="发布时间" value="{{datetime}}">
+  <textarea name="content" placeholder="内容" rows="20">{{rawContent}}</textarea>
+  <button type="submit">保存</button>
+</form>
+
+<style>
+  button[type="submit"], input, textarea {
+    -webkit-appearance: none;
+    border: 2px solid #eee;
+    box-sizing: border-box;
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 100%;
+  }
+
+  textarea {
+    font-family: monospace;
+  }
+
+  input:focus, textarea:focus {
+    border-color: #888;
+    outline: 0 none;
+  }
+
+  button[type="submit"] {
+    background: #349ede;
+    border: 0 none;
+    color: #fff;
+    font-weight: bold;
+    padding: 12px 0;
+  }
+</style>
+
+{{>partial/footer}}

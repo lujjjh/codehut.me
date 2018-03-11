@@ -1,13 +1,14 @@
 import {
   Authorized,
+  BodyParam,
   Controller,
   Get,
   HeaderParam,
-  HttpError,
   OnUndefined,
   Params,
   Post,
   QueryParam,
+  Redirect,
   Render
 } from "routing-controllers";
 import { Inject } from "typedi";
@@ -60,10 +61,54 @@ export class PostController {
     return new PostView(post);
   }
 
-  @Post("/")
+  @Get("/create")
   @Authorized()
+  @Render("edit")
   public create() {
-    throw new HttpError(501, "Not implemented.");
+    return PostView.from({ published_at: new Date() });
+  }
+
+  @Post("/create")
+  @Authorized()
+  @Redirect("/posts/:cursor/edit")
+  public async createAction(
+    @BodyParam("title") title: string,
+    @BodyParam("published_at") publishedAt: Date,
+    @BodyParam("content") content: string
+  ) {
+    const { insertId } = await this.postService.create({
+      title,
+      published_at: publishedAt,
+      content
+    });
+    return { cursor: new Cursor(insertId).cursor };
+  }
+
+  @Get("/posts/:cursor/edit")
+  @Authorized()
+  @Render("edit")
+  @OnUndefined(PostNotFoundError)
+  public async edit(@Params() cursor: Cursor) {
+    return PostView.from(await this.postService.findWithoutCache(cursor.id));
+  }
+
+  @Post("/posts/:cursor/edit")
+  @Authorized()
+  @Render("edit")
+  @OnUndefined(PostNotFoundError)
+  public async editAction(
+    @Params() cursor: Cursor,
+    @BodyParam("title") title: string,
+    @BodyParam("published_at") publishedAt: Date,
+    @BodyParam("content") content: string
+  ) {
+    await this.postService.update({
+      id: cursor.id,
+      title,
+      published_at: publishedAt,
+      content
+    });
+    return PostView.from(await this.postService.findWithoutCache(cursor.id));
   }
 
   private stripHanzi(content: string) {

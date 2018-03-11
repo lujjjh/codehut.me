@@ -4,6 +4,13 @@ import { Post } from "../service/PostService";
 import { Cursor } from "../trait/Cursor";
 
 export class PostView {
+  public static from(post?: Partial<Post>) {
+    if (!post) {
+      return undefined;
+    }
+    return new this(post);
+  }
+
   constructor(private post: Partial<Post>) {}
 
   @Expose()
@@ -24,6 +31,11 @@ export class PostView {
   @Expose()
   get content() {
     return this.post.content_rendered;
+  }
+
+  @Expose()
+  get rawContent() {
+    return this.post.content;
   }
 
   @Expose()

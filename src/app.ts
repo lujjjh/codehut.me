@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import * as bodyParser from "body-parser";
 import * as config from "config";
 import session = require("cookie-session");
 import * as express from "express";
@@ -46,7 +47,7 @@ async function start() {
   app.set("asset", () => (text, render) => {
     return "/static/" + text.replace(/\.[^\.]+$/, `.${hash}$&`);
   });
-  app.set("ga", () => config.has("ga") ? config.get("ga") : undefined);
+  app.set("ga", () => (config.has("ga") ? config.get("ga") : undefined));
 
   app.use(
     session({
@@ -56,6 +57,8 @@ async function start() {
       secure: app.get("env") === "production"
     })
   );
+
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   useExpressServer(app, {
     authorizationChecker(action: Action, rules: string[]) {

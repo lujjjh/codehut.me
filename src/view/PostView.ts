@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import { Post } from "../service/PostService";
 
 export class PostView {
-  private constructor(private post: Partial<Post>) {}
+  constructor(private post: Partial<Post>) {}
 
   @Expose()
   get id() {

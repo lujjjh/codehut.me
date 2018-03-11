@@ -1,30 +1,44 @@
+import { Expose } from "class-transformer";
 import { DateTime } from "luxon";
 import { Post } from "../service/PostService";
 
 export class PostView {
-  public id: number;
-  public tags: string[];
-  public title: string;
-  public content: string;
-  public url: string;
-  public date: string;
-  public datetime: string;
+  private constructor(private post: Partial<Post>) {}
 
-  constructor({
-    id,
-    tags,
-    title,
-    content_rendered,
-    published_at
-  }: Partial<Post>) {
-    this.id = id;
-    this.tags = (tags || []).slice();
-    this.title = title;
-    this.content = content_rendered;
-    this.url = "/posts/" + Buffer.from("cursor:" + this.id).toString("base64");
-    this.date = DateTime.fromJSDate(published_at!).toLocaleString(
+  @Expose()
+  get id() {
+    return this.post.id;
+  }
+
+  @Expose()
+  get tags() {
+    return (this.post.tags || []).slice();
+  }
+
+  @Expose()
+  get title() {
+    return this.post.title;
+  }
+
+  @Expose()
+  get content() {
+    return this.post.content_rendered;
+  }
+
+  @Expose()
+  get url() {
+    return "/posts/" + Buffer.from("cursor:" + this.id).toString("base64");
+  }
+
+  @Expose()
+  get date() {
+    return DateTime.fromJSDate(this.post.published_at!).toLocaleString(
       DateTime.DATE_FULL
     );
-    this.datetime = DateTime.fromJSDate(published_at!).toISO();
+  }
+
+  @Expose()
+  get datetime() {
+    return DateTime.fromJSDate(this.post.published_at!).toISO();
   }
 }

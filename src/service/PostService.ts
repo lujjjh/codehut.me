@@ -91,7 +91,9 @@ export class PostService {
     }
     const post = this.postFromRow(rows[0]);
     if (process.env.NODE_ENV !== "production" || !post.content_rendered) {
-      post.content_rendered = han.render(md.render(post.content));
+      post.content_rendered = (await han.ready()).render(
+        md.render(post.content)
+      );
       this.database.client.query(
         `
           UPDATE posts SET content_rendered = ?

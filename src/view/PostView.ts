@@ -1,6 +1,7 @@
 import { Expose } from "class-transformer";
 import { DateTime } from "luxon";
 import { Post } from "../service/PostService";
+import { Cursor } from "../trait/Cursor";
 
 export class PostView {
   constructor(private post: Partial<Post>) {}
@@ -27,7 +28,8 @@ export class PostView {
 
   @Expose()
   get url() {
-    return "/posts/" + Buffer.from("cursor:" + this.id).toString("base64");
+    const cursor = new Cursor(this.id);
+    return "/posts/" + cursor.cursor;
   }
 
   @Expose()

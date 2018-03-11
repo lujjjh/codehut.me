@@ -5,7 +5,7 @@ import {
   HeaderParam,
   HttpError,
   OnUndefined,
-  Param,
+  Params,
   Post,
   QueryParam,
   Render
@@ -13,6 +13,7 @@ import {
 import { Inject } from "typedi";
 import { PostNotFoundError } from "../error/PostNotFoundError";
 import { PostService } from "../service/PostService";
+import { Cursor } from "../trait/Cursor";
 import { PostView } from "../view/PostView";
 
 const POSTS_PER_PAGE = 10;
@@ -46,19 +47,10 @@ export class PostController {
   @Render("post")
   @OnUndefined(PostNotFoundError)
   public async find(
-    @Param("cursor") cursor: string,
+    @Params() cursor: Cursor,
     @HeaderParam("User-Agent") ua: string
   ) {
-    const cursorId = Buffer.from(cursor, "base64").toString("utf-8");
-    const match = /^cursor:(\d+)$/.exec(cursorId);
-    if (!match) {
-      return undefined;
-    }
-    const id = parseInt(match[1], 10);
-    if (id !== id) {
-      return undefined;
-    }
-    const post = await this.postService.find(id);
+    const post = await this.postService.find(cursor.id);
     if (!post) {
       return undefined;
     }

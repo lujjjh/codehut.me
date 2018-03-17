@@ -31,7 +31,7 @@ const md = new MarkdownIt({
 export class PostService {
   @Inject() private database: Database;
 
-  @Cache({ ttl: 60 })
+  @Cache({ ttl: 5 })
   public async findAll({ limit, offset }: { limit?: number; offset?: number }) {
     limit = Math.floor(limit || 10);
     offset = Math.floor(offset || 0);
@@ -56,7 +56,7 @@ export class PostService {
     return rows.map(this.postFromRow) as Array<Partial<Post>>;
   }
 
-  @Cache({ ttl: 60 })
+  @Cache({ ttl: 5 })
   public async countAll() {
     const rows = await this.database.client.query(`
       SELECT COUNT(id) AS count
@@ -105,7 +105,7 @@ export class PostService {
     return post;
   }
 
-  @Cache({ ttl: 120 })
+  @Cache({ ttl: 5 })
   public find(id: number) {
     return this.findWithoutCache(id);
   }

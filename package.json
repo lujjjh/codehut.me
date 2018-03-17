@@ -6,8 +6,7 @@
   "main": "dist/bootstrap.js",
   "files": ["dist/"],
   "scripts": {
-    "dev":
-      "onchange 'src/**/*.ts' 'views/**/*.mustache' -i -- ts-node --typeCheck src/app.ts",
+    "dev": "onchange 'src/**/*.ts' -i -- ts-node --typeCheck src/app.ts",
     "start":
       "NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/bootstrap",
     "test": "prettier --debug-check src/**/*.ts && tslint -p .",

@@ -36,7 +36,11 @@ app.get(
   })
 );
 
-app.engine("mustache", mustacheExpress());
+const mustache = mustacheExpress();
+if (process.env.NODE_ENV !== "production") {
+  delete mustache.cache;
+}
+app.engine("mustache", mustache);
 app.set("view engine", "mustache");
 app.set("views", path.join(__dirname, "..", "views"));
 

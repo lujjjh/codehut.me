@@ -1,6 +1,6 @@
 import { Expose } from "class-transformer";
 import { DateTime } from "luxon";
-import { Post } from "../service/PostService";
+import { Post } from "../entity/Post";
 import { Cursor } from "../trait/Cursor";
 
 export class PostView {
@@ -19,18 +19,13 @@ export class PostView {
   }
 
   @Expose()
-  get tags() {
-    return (this.post.tags || []).slice();
-  }
-
-  @Expose()
   get title() {
     return this.post.title;
   }
 
   @Expose()
   get content() {
-    return this.post.content_rendered;
+    return this.post.contentRendered;
   }
 
   @Expose()
@@ -46,13 +41,13 @@ export class PostView {
 
   @Expose()
   get date() {
-    return DateTime.fromJSDate(this.post.published_at!).toLocaleString(
+    return DateTime.fromJSDate(this.post.publishedAt!).toLocaleString(
       DateTime.DATE_FULL
     );
   }
 
   @Expose()
   get datetime() {
-    return DateTime.fromJSDate(this.post.published_at!).toISO();
+    return DateTime.fromJSDate(this.post.publishedAt!).toISO();
   }
 }

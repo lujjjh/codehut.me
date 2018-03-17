@@ -13,6 +13,7 @@ import { Container } from "typedi";
 import { PostController } from "./controller/PostController";
 import { StaticController } from "./controller/StaticController";
 import { UserController } from "./controller/UserController";
+import "./database";
 import { UserService } from "./service/UserService";
 
 const pkg = JSON.parse(
@@ -66,7 +67,7 @@ useExpressServer(app, {
   },
   currentUserChecker(action: Action) {
     const { user_id: id } = action.request.session;
-    return Container.get(UserService).findUserById(id);
+    return Container.get(UserService).findById(id);
   },
   controllers: [StaticController, UserController, PostController]
 });

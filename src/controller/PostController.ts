@@ -56,7 +56,7 @@ export class PostController {
       return undefined;
     }
     if (/bot|googlebot|crawler|spider|robot|crawling/i.test(ua)) {
-      post.content_rendered = this.stripHanzi(post.content_rendered);
+      post.contentRendered = this.stripHanzi(post.contentRendered);
     }
     return new PostView(post);
   }
@@ -65,7 +65,7 @@ export class PostController {
   @Authorized()
   @Render("edit")
   public create() {
-    return PostView.from({ published_at: new Date() });
+    return PostView.from({ publishedAt: new Date() });
   }
 
   @Post("/create")
@@ -76,12 +76,13 @@ export class PostController {
     @BodyParam("published_at") publishedAt: Date,
     @BodyParam("content") content: string
   ) {
-    const { insertId } = await this.postService.create({
+    const post = await this.postService.save({
       title,
-      published_at: publishedAt,
-      content
+      publishedAt,
+      content,
+      contentRendered: ""
     });
-    return { cursor: new Cursor(insertId).cursor };
+    return { cursor: new Cursor(post.id).cursor };
   }
 
   @Get("/posts/:cursor/edit")
@@ -89,7 +90,7 @@ export class PostController {
   @Render("edit")
   @OnUndefined(PostNotFoundError)
   public async edit(@Params() cursor: Cursor) {
-    return PostView.from(await this.postService.findWithoutCache(cursor.id));
+    return PostView.from(await this.postService.find(cursor.id));
   }
 
   @Post("/posts/:cursor/edit")
@@ -102,13 +103,15 @@ export class PostController {
     @BodyParam("published_at") publishedAt: Date,
     @BodyParam("content") content: string
   ) {
-    await this.postService.update({
-      id: cursor.id,
-      title,
-      published_at: publishedAt,
-      content
-    });
-    return PostView.from(await this.postService.findWithoutCache(cursor.id));
+    return PostView.from(
+      await this.postService.save({
+        id: cursor.id,
+        title,
+        publishedAt,
+        content,
+        contentRendered: ""
+      })
+    );
   }
 
   private stripHanzi(content: string) {

@@ -1,19 +1,15 @@
 import * as ClientOAuth2 from "client-oauth2";
 import * as config from "config";
-import { Inject, Service } from "typedi";
-import { Database } from "./Database";
-
-interface User {
-  id: number;
-  name: string;
-  display_name: string;
-}
+import { Service } from "typedi";
+import { Repository } from "typeorm";
+import { OrmRepository } from "typeorm-typedi-extensions";
+import { User } from "../entity/User";
 
 @Service()
 export class UserService {
   private auth: ClientOAuth2;
 
-  @Inject() private database: Database;
+  @OrmRepository(User) private repository: Repository<User>;
 
   constructor() {
     this.auth = new ClientOAuth2({
@@ -41,37 +37,13 @@ export class UserService {
     if (typeof login !== "string") {
       return undefined;
     }
-    return this.findUserByName(login);
+    return this.repository.findOne({ where: { name: login } });
   }
 
-  public async findUserByName(name: string) {
-    const rows = await this.database.client.query(
-      `
-      SELECT id, name, display_name FROM users
-      WHERE name = ?
-    `,
-      name
-    );
-    if (rows.length === 0) {
-      return undefined;
-    }
-    return rows[0] as User;
-  }
-
-  public async findUserById(id: number) {
+  public async findById(id: number) {
     if (!id || +id !== +id) {
       return undefined;
     }
-    const rows = await this.database.client.query(
-      `
-      SELECT id, name, display_name FROM users
-      WHERE id = ?
-    `,
-      id
-    );
-    if (rows.length === 0) {
-      return undefined;
-    }
-    return rows[0] as User;
+    return this.repository.findOneById(id);
   }
 }

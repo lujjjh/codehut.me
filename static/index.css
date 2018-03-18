@@ -109,7 +109,6 @@ footer li:last-child::after {
 
 .pagination {
   display: flex;
-  height: 20px;
   justify-content: center;
   line-height: 20px;
   margin-top: 40px;
@@ -118,8 +117,21 @@ footer li:last-child::after {
 
 .pagination-next,
 .pagination-prev {
-  color: #999;
-  padding: 0 20px;
+  color: #333;
+  font-weight: 600;
+  margin: 0 10px;
+  padding: 5px;
+  text-transform: uppercase;
+}
+
+.pagination-next svg,
+.pagination-prev svg {
+  fill: currentColor;
+  height: 14px;
+  margin: 0 6px;
+  position: relative;
+  top: 3px;
+  vertical-align: top;
 }
 
 .post {

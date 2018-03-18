@@ -36,7 +36,9 @@ export class PostService {
   }
 
   public countAll() {
-    return this.repository.count();
+    return this.repository.count({
+      where: "published_at <= NOW()"
+    });
   }
 
   public async find(id: number) {

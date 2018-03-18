@@ -10,9 +10,6 @@ import * as mustacheExpress from "mustache-express";
 import * as path from "path";
 import { Action, useContainer, useExpressServer } from "routing-controllers";
 import { Container } from "typedi";
-import { PostController } from "./controller/PostController";
-import { StaticController } from "./controller/StaticController";
-import { UserController } from "./controller/UserController";
 import "./database";
 import { UserService } from "./service/UserService";
 
@@ -69,7 +66,10 @@ useExpressServer(app, {
     const { user_id: id } = action.request.session;
     return Container.get(UserService).findById(id);
   },
-  controllers: [StaticController, UserController, PostController]
+  controllers: [
+    path.join(__dirname, "controller", "*.js"),
+    path.join(__dirname, "controller", "*.ts")
+  ]
 });
 
 const port = (process.env.PORT && +process.env.PORT) || 3000;

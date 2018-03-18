@@ -32,6 +32,8 @@ hr {
 }
 
 header {
+  align-items: baseline;
+  display: flex;
   font-size: 36px;
   margin: 0 0 40px;
 }
@@ -40,18 +42,69 @@ header .logo {
   border-bottom: 3px solid #1e1e1e;
 }
 
+nav {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+nav ol {
+  list-style-type: none;
+  margin: 0 0 0 34px;
+  overflow: hidden;
+  padding: 0;
+}
+
+nav li {
+  float: left;
+  margin: 0 0 0 28px;
+}
+
+nav li a {
+  color: #999;
+}
+
+nav li a:hover {
+  color: #333;
+}
+
 footer {
   color: #a2a2a2;
+  display: flex;
   margin: 80px 0 0;
 }
 
 footer a {
   color: #a2a2a2;
-  text-decoration: none;
 }
 
 footer a:hover {
   color: #353b40;
+}
+
+footer ol {
+  list-style-type: none;
+  overflow: hidden;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+
+footer li {
+  align-items: center;
+  display: flex;
+  float: left;
+}
+
+footer li::after {
+  background: currentColor;
+  content: " ";
+  display: inline-block;
+  margin: 0 10px;
+  width: 1px;
+  height: 14px;
+}
+
+footer li:last-child::after {
+  display: none;
 }
 
 .pagination {

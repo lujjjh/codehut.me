@@ -23,6 +23,14 @@ body {
   padding: 40px;
 }
 
+hr {
+  border: 0 none;
+  border-bottom: 3px solid #1e1e1e;
+  width: 100px;
+  margin: 50px auto;
+  opacity: 0.1;
+}
+
 header {
   font-size: 36px;
   margin: 0 0 40px;
@@ -162,8 +170,6 @@ footer a:hover {
   margin: 0 auto;
 }
 
-.reward {
-  margin: 60px 0 30px;
-  opacity: 0.666;
-  text-align: center;
+.footnotes p {
+  margin: 0;
 }

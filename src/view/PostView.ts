@@ -42,7 +42,7 @@ export class PostView {
   @Expose()
   get date() {
     return DateTime.fromJSDate(this.post.publishedAt!).toLocaleString(
-      DateTime.DATE_FULL
+      DateTime.DATE_SHORT
     );
   }
 

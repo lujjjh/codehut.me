@@ -79,6 +79,7 @@ footer a:hover {
   font-size: 2.4em;
   font-weight: 500;
   margin: 30px 0 5px;
+  word-wrap: break-word;
 }
 
 .post-meta {
@@ -165,9 +166,17 @@ footer a:hover {
   margin: 1.5em 0;
 }
 
-.post-content .aligncenter {
+.post-content .aligncenter,
+.post-content figure img {
   display: block;
   margin: 0 auto;
+  max-width: 100%;
+}
+
+.post-content figcaption {
+  color: #c2c2c2;
+  font-size: 14px;
+  text-align: center;
 }
 
 .footnotes p {

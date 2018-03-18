@@ -55,9 +55,6 @@ export class PostController {
     if (!post) {
       return undefined;
     }
-    if (/bot|googlebot|crawler|spider|robot|crawling/i.test(ua)) {
-      post.contentRendered = this.stripHanzi(post.contentRendered);
-    }
     return new PostView(post);
   }
 
@@ -112,12 +109,5 @@ export class PostController {
         contentRendered: ""
       })
     );
-  }
-
-  private stripHanzi(content: string) {
-    while (/<(h-[^>\s]+)[^>]*>([\s\S]*?)<\/\1>/.test(content)) {
-      content = content.replace(/<(h-[^>\s]+)[^>]*>([\s\S]*?)<\/\1>/g, "$2");
-    }
-    return content;
   }
 }

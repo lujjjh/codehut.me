@@ -10,16 +10,15 @@
   <link href="https://cdn.ljh.io/highlight.js/9.12.0/styles/atom-one-light.min.css" rel="stylesheet">
   <link href="{{#settings.asset}}index.css{{/settings.asset}}" rel="stylesheet">
   {{#settings.ga}}
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{id}}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments)};
-      gtag('js', new Date());;
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
       gtag('config', '{{id}}');
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{id}}"></script>
-    <!-- End Google Analytics -->
   {{/settings.ga}}
 </head>
 <body>

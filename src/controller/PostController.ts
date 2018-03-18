@@ -17,7 +17,7 @@ import { PostService } from "../service/PostService";
 import { Cursor } from "../trait/Cursor";
 import { PostView } from "../view/PostView";
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 5;
 
 @Controller()
 export class PostController {

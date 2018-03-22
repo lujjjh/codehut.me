@@ -248,3 +248,22 @@ footer li:last-child::after {
 .footnotes p {
   margin: 0;
 }
+
+@media (max-width: 600px) {
+  header,
+  footer {
+    flex-direction: column;
+  }
+
+  nav ol {
+    margin: 30px 0 0;
+  }
+
+  nav li:first-child {
+    margin-left: 0;
+  }
+
+  footer ol {
+    margin: 0.5em 0 0;
+  }
+}

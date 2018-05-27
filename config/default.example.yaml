@@ -14,3 +14,9 @@ oauth:
 
 ga:
   id: UA-foo-bar
+
+opensearch:
+  access_key: access key
+  secret_key: secret key
+  endpoint: endpoint
+  app_name: codehut

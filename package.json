@@ -4,11 +4,12 @@
   "description": "lujjjh's blog.",
   "private": true,
   "main": "dist/bootstrap.js",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "dev": "onchange 'src/**/*.ts' -i -- ts-node --typeCheck src/app.ts",
-    "start":
-      "NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/bootstrap",
+    "start": "NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/bootstrap",
     "test": "prettier --debug-check src/**/*.ts && tslint -p .",
     "fix": "prettier --write src/**/*.ts && tslint --fix -p .",
     "build": "tsc",
@@ -17,6 +18,7 @@
   "author": "lujjjh <lujjjh@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "aliyun-sdk": "^1.11.6",
     "autobind-decorator": "^2.1.0",
     "client-oauth2": "^4.1.0",
     "config": "^1.29.4",

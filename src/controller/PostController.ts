@@ -13,6 +13,7 @@ import {
 } from "routing-controllers";
 import { Inject } from "typedi";
 import { PostNotFoundError } from "../error/PostNotFoundError";
+import { OpenSearchService } from "../service/OpenSearchService";
 import { PostService } from "../service/PostService";
 import { Cursor } from "../trait/Cursor";
 import { PostView } from "../view/PostView";
@@ -22,6 +23,7 @@ const POSTS_PER_PAGE = 5;
 @Controller()
 export class PostController {
   @Inject() private postService: PostService;
+  @Inject() private openSearchService: OpenSearchService;
 
   @Get("/")
   @Render("posts")
@@ -109,5 +111,18 @@ export class PostController {
         contentRendered: ""
       })
     );
+  }
+
+  @Post("/posts/index_all")
+  @Authorized()
+  public async indexAll() {
+    for (let offset = 0, posts = []; ; offset += posts.length) {
+      posts = await this.postService.findAll({ offset });
+      if (!posts.length) {
+        break;
+      }
+      await this.openSearchService.uploadPosts(posts);
+    }
+    return true;
   }
 }
